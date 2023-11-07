@@ -43,8 +43,10 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Form
+  Form,
+  Alert
 } from "reactstrap";
+
 
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
@@ -52,6 +54,7 @@ import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 
 function ProfilePage() {
+  // template code
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
     document.body.classList.add("landing-page");
@@ -60,9 +63,32 @@ function ProfilePage() {
     };
   });
 
+  // state
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  
+  // modal code for uploading content
   const [modal, setModal] = useState(false);
-
   const toggle = () => setModal(!modal);
+
+  // functionality needed to for handling uploads
+  const handleUpload = (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    // demo function
+    setMessage("Upload successful!")
+    
+    setLoading(false)
+    handleReset();
+  }
+
+  const handleReset = () => {
+    setTimeout(() => {
+      setMessage('')
+    }, 3000)
+  }
   
   return (
     <>
@@ -80,7 +106,7 @@ function ProfilePage() {
             </div>
             <div className="name">
               <h4 className="title">
-                Jane Faker <br />
+                Jake Faker <br />
               </h4>
               <h6 className="description">Freelance Videographer</h6>
             </div>
@@ -88,10 +114,7 @@ function ProfilePage() {
           <Row>
             <Col className="ml-auto mr-auto text-center" md="6">
               <p>
-                An artist of considerable range, Jane Faker — the name taken by
-                Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-                and records all of his own music, giving it a warm, intimate
-                feel with a solid groove structure.
+                An freelance videographer of considerable range, Jake Faker is a creative that captures life in a lense.
               </p>
               <br />
               <Button className="btn-round" color="default" outline onClick={toggle}>
@@ -133,7 +156,8 @@ function ProfilePage() {
         <ModalBody>
           <Card className="ml-auto mr-auto" style={{background: 'none'}}>
             <CardBody>
-                <Form className="register-form">
+                <Form onSubmit={handleUpload} className="register-form">
+                  {message && (<Alert>{message}</Alert>)}
                   <FormGroup mt='1' mb='1'>
                   <label>Title</label>
                   <Input placeholder="enter your video title" type="text" />
@@ -150,8 +174,8 @@ function ProfilePage() {
                   <label>Video Upload</label>
                   <Input placeholder="Video" type="file" />
                   </FormGroup>
-                  <Button block className="btn-round" color="secondary">
-                    Submit
+                  <Button block className="btn-round" color="secondary" type='submit' disabled={loading}>
+                    {loading ? 'adding...' : 'Submit'}
                   </Button>
                 </Form>
                 </CardBody>
