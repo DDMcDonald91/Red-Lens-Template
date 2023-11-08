@@ -7,6 +7,7 @@ import { Button, Card, Form, Input, Container, Row, Col } from "reactstrap";
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 
 function LoginPage() {
+  // template code
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
     document.body.classList.add("register-page");
@@ -14,6 +15,8 @@ function LoginPage() {
       document.body.classList.remove("register-page");
     };
   });
+
+
   return (
     <>
       <div
